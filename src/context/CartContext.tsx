@@ -1,0 +1,100 @@
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../services/api";
+import { toast } from "react-toastify";
+
+interface iChildren{
+    children: React.ReactNode
+}
+
+interface iProduct{
+    id?: number,
+    name: string,
+    category: string,
+    price: number,
+    img: string,
+    product: iProduct
+}
+
+interface iContextProps{
+    products: null | iProduct[],
+    setProducts: Dispatch<SetStateAction<iProduct[] | null>>,
+    searchProduct: string,
+    setSearchProduct: Dispatch<SetStateAction<string>>,
+    filterProducts: undefined | iProduct[],
+    setCartProducts: Dispatch<SetStateAction<iProduct[] | null>>,
+    cartProducts: iProduct[] | null,
+    addToCart: (product: iProduct) => void,
+    cartModal: boolean,
+    setCartModal: Dispatch<SetStateAction<boolean>>,
+    sumProductsPrice: number | undefined
+}
+
+export const CartContext = createContext({} as iContextProps)
+
+export const CartProvider = ({ children }: iChildren) => {
+
+    const [searchProduct, setSearchProduct] = useState<string>("")
+
+    const [products, setProducts] = useState<null | iProduct[]>(null)
+
+    const [cartProducts, setCartProducts] = useState<null | iProduct[]>(null)
+
+    const [cartModal, setCartModal] = useState<boolean>(false)
+
+    const navigate = useNavigate()
+
+    const filterProducts = products?.filter(product => {
+        if(searchProduct == "") {
+            return product
+        } else {
+            return product.name.toLowerCase().includes(searchProduct.toLowerCase().trim()) || product.category.toLowerCase().includes(searchProduct.toLowerCase().trim())
+        }
+    })
+
+    const sumProductsPrice = cartProducts?.reduce((a, b) => {return a + b.price}, 0)
+
+    const addToCart = (product: iProduct) => {
+        if(cartProducts) {
+            const findEqual = cartProducts?.find((productCart) => product.id == productCart.id)
+
+            if(findEqual) {
+                toast.warning("Você já adicionou esse produto ao carrinho")
+            } else {
+                const newArray = cartProducts?.map((productTest) => productTest)
+                newArray?.push(product)
+                setCartProducts(newArray)
+            }
+            return
+        } else {
+            setCartProducts([product])
+        }
+    }
+
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const token = localStorage.getItem("@token") || ""
+                const { data } = await api.get<iProduct[]>("/products", {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(token)}`
+                    }
+                })
+                navigate("/home")
+                setProducts(data)
+            } catch (error) {
+                console.log(error)
+                navigate("/")
+                localStorage.clear()
+            }
+        }
+
+        getProducts()
+    }, [])
+
+    return (
+        <CartContext.Provider value={{ products, setProducts, searchProduct, setSearchProduct, filterProducts, cartProducts, setCartProducts, addToCart, cartModal, setCartModal, sumProductsPrice }}>
+            {children}
+        </CartContext.Provider>
+    )
+}
