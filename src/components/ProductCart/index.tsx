@@ -1,15 +1,20 @@
 import { ProductCartStyle } from "./style"
 import trash from "../../assets/trash.svg"
+import { useContext } from "react"
+import { CartContext } from "../../context/CartContext"
 
 interface iProductProps{
     img: string,
     name: string,
-    id: number | undefined,
+    id: number,
     category?: string,
     price?: number
 }
 
 export const ProductCart = ({ img, name, id }: iProductProps) => {
+
+    const { removeFromCart } = useContext(CartContext)
+
     return (
         <ProductCartStyle>
             <div>
@@ -23,7 +28,7 @@ export const ProductCart = ({ img, name, id }: iProductProps) => {
                     </div>
                 </div>
             </div>
-            <img src={trash} alt="Lixeira para excluir" />
+            <img onClick={() => removeFromCart(id)} src={trash} alt="Lixeira para excluir" />
         </ProductCartStyle>
     )
 }

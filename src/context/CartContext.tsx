@@ -27,7 +27,8 @@ interface iContextProps{
     addToCart: (product: iProduct) => void,
     cartModal: boolean,
     setCartModal: Dispatch<SetStateAction<boolean>>,
-    sumProductsPrice: number | undefined
+    sumProductsPrice: number | undefined,
+    removeFromCart: (id: number) => void
 }
 
 export const CartContext = createContext({} as iContextProps)
@@ -71,6 +72,15 @@ export const CartProvider = ({ children }: iChildren) => {
         }
     }
 
+    const removeFromCart = (id: number) => {
+        const filterCart = cartProducts?.filter(product => product.id !== id)
+        if(filterCart?.length === 0) {
+            setCartProducts(null)
+        } else {
+            setCartProducts(filterCart)
+        }
+    }
+
     useEffect(() => {
         const getProducts = async () => {
             try {
@@ -93,7 +103,7 @@ export const CartProvider = ({ children }: iChildren) => {
     }, [])
 
     return (
-        <CartContext.Provider value={{ products, setProducts, searchProduct, setSearchProduct, filterProducts, cartProducts, setCartProducts, addToCart, cartModal, setCartModal, sumProductsPrice }}>
+        <CartContext.Provider value={{ removeFromCart ,products, setProducts, searchProduct, setSearchProduct, filterProducts, cartProducts, setCartProducts, addToCart, cartModal, setCartModal, sumProductsPrice }}>
             {children}
         </CartContext.Provider>
     )
