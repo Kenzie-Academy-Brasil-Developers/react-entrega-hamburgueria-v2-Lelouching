@@ -16,7 +16,7 @@ export const Cart = () => {
                     <span onClick={() => setCartModal(false)}>X</span>
                 </div>
                 {
-                    cartProducts == null ? (
+                    cartProducts.length == 0 ? (
                         <div>
                             <h3>Sua sacola está vazia</h3>
                             <span>Adicione itens</span>
@@ -35,7 +35,7 @@ export const Cart = () => {
                                     <span>Total</span>
                                     <span>R$ {sumProductsPrice?.toFixed(2)}</span>
                                 </div>
-                                <ButtonStyle onClick={() => setCartProducts(null)} type="button" width="full" styledBtn="colorGrey" padding="big">Remover todos</ButtonStyle>
+                                <ButtonStyle onClick={() => setCartProducts([])} type="button" width="full" styledBtn="colorGrey" padding="big">Remover todos</ButtonStyle>
                             </div>
                         </section>
                     )

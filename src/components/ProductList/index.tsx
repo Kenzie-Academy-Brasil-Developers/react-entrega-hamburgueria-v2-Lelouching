@@ -6,7 +6,7 @@ import { ProductListStyle } from "./style"
 interface iProductProps{
     img: string,
     name: string,
-    id?: number,
+    id: number,
     category: string,
     price: number,
     product: iProductProps

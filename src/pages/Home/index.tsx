@@ -7,7 +7,7 @@ import { api } from "../../services/api"
 import { HomeStyle } from "./style"
 
 interface iProduct{
-    id?: number,
+    id: number,
     name: string,
     category: string,
     price: number,

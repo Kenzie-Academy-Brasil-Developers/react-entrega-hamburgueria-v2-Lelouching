@@ -40,8 +40,7 @@ export const HeaderStyle = styled.header`
             form{
 
                 position: relative;
-                width: 13rem;
-                max-width: 100%;
+                width: 100%;
                 height: fit-content;
                 border: 0.125rem solid var(--color-grey-100);
                 border-radius: var(--radius-1);

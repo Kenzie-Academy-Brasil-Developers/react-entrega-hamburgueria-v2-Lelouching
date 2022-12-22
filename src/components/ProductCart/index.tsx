@@ -19,7 +19,7 @@ export const ProductCart = ({ img, name, id }: iProductProps) => {
         <ProductCartStyle>
             <div>
                 <div>
-                    <img src={img} alt="" />
+                    <img src={img} alt={name} />
                 </div>
                 <div>
                     <h3>{name}</h3>

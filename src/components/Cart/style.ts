@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const CartStyle = styled.div`
 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -11,7 +11,7 @@ export const CartStyle = styled.div`
     z-index: 1;
     display: flex;
     justify-content: center;
-    padding-top: 4.5rem;
+    padding: 4.5rem 1rem 0 1rem;
 
     & > div{
         width: 31.25rem;
@@ -66,6 +66,7 @@ export const CartStyle = styled.div`
             display: flex;
             flex-direction: column;
             background-color: #FFF;
+            border-radius: 0 0 var(--radius-2) var(--radius-2);
             padding: 1rem;
 
             & > ul{

@@ -8,7 +8,7 @@ interface iChildren{
 }
 
 interface iProduct{
-    id?: number,
+    id: number,
     name: string,
     category: string,
     price: number,
@@ -22,8 +22,8 @@ interface iContextProps{
     searchProduct: string,
     setSearchProduct: Dispatch<SetStateAction<string>>,
     filterProducts: undefined | iProduct[],
-    setCartProducts: Dispatch<SetStateAction<iProduct[] | null>>,
-    cartProducts: iProduct[] | null,
+    setCartProducts: Dispatch<SetStateAction<iProduct[]>>,
+    cartProducts: iProduct[],
     addToCart: (product: iProduct) => void,
     cartModal: boolean,
     setCartModal: Dispatch<SetStateAction<boolean>>,
@@ -39,7 +39,7 @@ export const CartProvider = ({ children }: iChildren) => {
 
     const [products, setProducts] = useState<null | iProduct[]>(null)
 
-    const [cartProducts, setCartProducts] = useState<null | iProduct[]>(null)
+    const [cartProducts, setCartProducts] = useState<iProduct[]>([] as iProduct[])
 
     const [cartModal, setCartModal] = useState<boolean>(false)
 
@@ -75,7 +75,7 @@ export const CartProvider = ({ children }: iChildren) => {
     const removeFromCart = (id: number) => {
         const filterCart = cartProducts?.filter(product => product.id !== id)
         if(filterCart?.length === 0) {
-            setCartProducts(null)
+            setCartProducts([])
         } else {
             setCartProducts(filterCart)
         }
@@ -85,16 +85,23 @@ export const CartProvider = ({ children }: iChildren) => {
         const getProducts = async () => {
             try {
                 const token = localStorage.getItem("@token") || ""
-                const { data } = await api.get<iProduct[]>("/products", {
-                    headers: {
-                        Authorization: `Bearer ${JSON.parse(token)}`
-                    }
-                })
-                navigate("/home")
-                setProducts(data)
+                if(token) {
+                    const { data } = await api.get<iProduct[]>("/products", {
+                        headers: {
+                            Authorization: `Bearer ${JSON.parse(token)}`
+                        }
+                    })
+                    navigate("/home")
+                    setProducts(data)
+                } else {
+                    navigate("/")
+                    toast.error("Logue novamente!")
+                    localStorage.clear()
+                }
             } catch (error) {
                 console.log(error)
                 navigate("/")
+                toast.error("Logue novamente!")
                 localStorage.clear()
             }
         }
