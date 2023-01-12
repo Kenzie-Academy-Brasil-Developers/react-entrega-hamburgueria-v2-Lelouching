@@ -1,13 +1,9 @@
 import { InputStyle } from "./style"
-import { UseFormRegisterReturn } from "react-hook-form"
+import { FieldError, UseFormRegisterReturn } from "react-hook-form"
 import { InputHTMLAttributes, useState } from "react"
 
-interface iInputErrors{
-
-}
-
 interface iInputProps extends InputHTMLAttributes<HTMLInputElement>{
-    errors: any,
+    errors: FieldError | undefined,
     label: string,
     id: string,
     type: string,
