@@ -83,9 +83,10 @@ export const CartProvider = ({ children }: iChildren) => {
 
     useEffect(() => {
         const getProducts = async () => {
-            try {
-                const token = localStorage.getItem("@token") || ""
-                if(token) {
+            const token = localStorage.getItem("@token") || ""
+
+            if(token) {
+                try {
                     const { data } = await api.get<iProduct[]>("/products", {
                         headers: {
                             Authorization: `Bearer ${JSON.parse(token)}`
@@ -93,16 +94,15 @@ export const CartProvider = ({ children }: iChildren) => {
                     })
                     navigate("/home")
                     setProducts(data)
-                } else {
+                } catch (error) {
+                    console.log(error)
+                    localStorage.clear()
                     navigate("/")
                     toast.error("Logue novamente!")
-                    localStorage.clear()
                 }
-            } catch (error) {
-                console.log(error)
-                navigate("/")
-                toast.error("Logue novamente!")
+            } else {
                 localStorage.clear()
+                navigate("/")
             }
         }
 
