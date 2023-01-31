@@ -8,10 +8,10 @@ interface iProductProps{
     name: string,
     id: number,
     category?: string,
-    price?: number
+    price: number
 }
 
-export const ProductCart = ({ img, name, id }: iProductProps) => {
+export const ProductCart = ({ img, name, id, price }: iProductProps) => {
 
     const { removeFromCart } = useContext(CartContext)
 
@@ -23,9 +23,7 @@ export const ProductCart = ({ img, name, id }: iProductProps) => {
                 </div>
                 <div>
                     <h3>{name}</h3>
-                    <div>
-                        
-                    </div>
+                    <span>R$ {price.toFixed(2)}</span>
                 </div>
             </div>
             <img onClick={() => removeFromCart(id)} src={trash} alt="Lixeira para excluir" />

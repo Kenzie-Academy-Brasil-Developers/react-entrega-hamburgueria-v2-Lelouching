@@ -26,7 +26,7 @@ export const Cart = () => {
                             <ul>
                                 {
                                     cartProducts.map((product, index) => (
-                                        <ProductCart key={index} img={product.img} name={product.name} id={product.id} />
+                                        <ProductCart key={index} img={product.img} name={product.name} id={product.id} price={product.price} />
                                     ))
                                 }
                             </ul>

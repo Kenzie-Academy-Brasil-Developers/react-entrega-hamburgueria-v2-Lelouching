@@ -7,6 +7,7 @@ export const ProductListStyle = styled.li`
     min-width: 17.25rem;
     border-radius: var(--radius-2);
     border: 0.125rem var(--color-grey-100) solid;
+    transition: 0.6s ease;
 
     & > div:nth-child(1){
         width: 100%;

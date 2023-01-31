@@ -18,19 +18,21 @@ export const ProductCartStyle = styled.li`
             justify-content: center;
             align-items: center;
             height: 100%;
-            padding: 1rem;
             background-color: var(--color-grey-100);
             border-radius: var(--radius-2);
+            width: 5rem;
+            max-width: 100%;
 
             & > img{
-                width: 2.8125rem;
-                height: 2.8125rem;
+                max-width: 100%;
+                max-height: 100%;
             }
         }
 
         & > div:nth-child(2){
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: space-around;
             height: 100%;
 
             & > h3{
@@ -39,8 +41,10 @@ export const ProductCartStyle = styled.li`
                 color: var(--color-grey-600);
             }
 
-            & > div{
-                
+            & > span{
+                font-size: var(--font-size-5);
+                font-weight: var(--weight-2);
+                color: var(--color-primary);
             }
         }
     }
